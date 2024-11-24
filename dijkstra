@@ -1,9 +1,10 @@
+//importation des bibliothèques
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
 
 #define MAX_VERTICES 100
-#define INFINITY INT_MAX
+#define INFINITY INT_MAX //déclaration d'une macro infini
 
 /// structure du graphe
 typedef struct {
@@ -26,7 +27,7 @@ void initgraphe(Graphe *graphe, const char *nomFichier) {
     for (int i = 0; i < graphe->nombreSommets; i++) {
         fscanf(file, "%*d");
     }
-    fscanf(file, "%d", &graphe->nombreAretes);
+    fscanf(file, "%d", &graphe->nombreAretes); //lit le fichier texte
 
     //initialisation de  la matrice d'adjacence
     for (int i = 0; i < graphe->nombreSommets; i++) {
@@ -42,7 +43,7 @@ void initgraphe(Graphe *graphe, const char *nomFichier) {
         graphe->aretes[u][v] = poids;
         graphe->aretes[v][u] = poids;
     }
-    fclose(file);
+    fclose(file); //ferme le fichier 
 }
 
 ///cette fonction implémente l'algorithme de Dijkstra (calculer le chemin le plus court)
@@ -107,7 +108,8 @@ void algodijkstra(Graphe *graphe, int depart, int arrivee) {
 
 ///MAIN///
 
-int main() {
+int main() 
+{    //déclaration des variables
     Graphe graphe;
     const char *nomFichier = "graphe.txt";
     initgraphe(&graphe, nomFichier);
