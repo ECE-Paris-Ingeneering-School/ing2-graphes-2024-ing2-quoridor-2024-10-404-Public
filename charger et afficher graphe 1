@@ -1,0 +1,223 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+//structure pour représenter une arête (arc)
+typedef struct Arete {
+    int cible;            //index du sommet cible
+    float poids;          //poids de l'arête
+    struct Arete* suivant; //pointeur vers l'arête suivante
+} Arete;
+
+//structure pour représenter un sommet
+typedef struct Sommet {
+    char nom[50];          //nom de l'espèce ou de la ressource
+    Arete* successeurs;    //liste chaînée des arêtes sortantes
+} Sommet;
+
+//structure pour représenter un graphe
+typedef struct Graphe {
+    int nbSommets;         //nombre de sommets
+    int nbAretes;          //nombre d'arêtes
+    Sommet* sommets;       //tableau de sommets
+} Graphe;
+
+//fonction pour créer un graphe vide
+Graphe* creerGraphe(int nbSommets) {
+    Graphe* graphe = (Graphe*)malloc(sizeof(Graphe));
+    graphe->nbSommets = nbSommets;
+    graphe->nbAretes = 0;
+    graphe->sommets = (Sommet*)malloc(nbSommets * sizeof(Sommet));
+    for (int i = 0; i < nbSommets; i++) {
+        graphe->sommets[i].successeurs = NULL; //aucun successeur au départ
+    }
+    return graphe;
+}
+
+//fonction pour ajouter une arête au graphe
+void ajouterArete(Graphe* graphe, int source, int cible, float poids) {
+    Arete* nouvelleArete = (Arete*)malloc(sizeof(Arete));
+    nouvelleArete->cible = cible;
+    nouvelleArete->poids = poids;
+    nouvelleArete->suivant = graphe->sommets[source].successeurs;
+    graphe->sommets[source].successeurs = nouvelleArete;
+}
+
+//fonction pour charger le graphe depuis un fichier
+Graphe* chargerGrapheDepuisFichier(const char* nomFichier) {
+    FILE* fichier = fopen(nomFichier, "r");
+    if (fichier == NULL) {
+        printf("Erreur : impossible d'ouvrir le fichier.\n");
+        return NULL;
+    }
+
+    int nbSommets;
+    fscanf(fichier, "%d\n", &nbSommets); //lecture du nombre de sommets
+
+    Graphe* graphe = creerGraphe(nbSommets);
+
+    //lecture des noms des sommets
+    for (int i = 0; i < nbSommets; i++) {
+        fgets(graphe->sommets[i].nom, 50, fichier);
+        graphe->sommets[i].nom[strcspn(graphe->sommets[i].nom, "\n")] = '\0'; //supprime le saut de ligne
+    }
+
+    //lecture du nombre d'arêtes
+    fscanf(fichier, "%d\n", &graphe->nbAretes);
+
+    //lecture des arêtes
+    for (int i = 0; i < graphe->nbAretes; i++) {
+        char sourceNom[50], cibleNom[50];
+        float poids;
+        if (fscanf(fichier, "%s %s %f\n", sourceNom, cibleNom, &poids) != 3) {
+            printf("Erreur lors de la lecture de l'arête %d. Format incorrect.\n", i + 1);
+            continue;
+        }
+
+        //trouver les indices des sommets source et cible
+        int source = -1, cible = -1;
+        for (int j = 0; j < graphe->nbSommets; j++) {
+            if (strcmp(graphe->sommets[j].nom, sourceNom) == 0) {
+                source = j;
+            }
+            if (strcmp(graphe->sommets[j].nom, cibleNom) == 0) {
+                cible = j;
+            }
+        }
+        if (source != -1 && cible != -1) {
+            ajouterArete(graphe, source, cible, poids);
+        } else {
+            printf("Erreur : sommet introuvable (%s -> %s).\n", sourceNom, cibleNom);
+        }
+    }
+
+    fclose(fichier);
+    return graphe;
+}
+
+//fonction pour afficher les successeurs d'un sommet
+void afficherSuccesseurs(Sommet* sommet, Graphe* graphe) {
+    Arete* arete = sommet->successeurs;
+    if (arete == NULL) {
+        printf("Aucun");
+    } else {
+        while (arete != NULL) {
+            printf("\n-> %s (poids: %.2f) ", graphe->sommets[arete->cible].nom, arete->poids);
+            arete = arete->suivant;
+        }
+    }
+}
+
+//fonction pour afficher les prédécesseurs d'un sommet
+void afficherPredecesseurs(int index, Graphe* graphe) {
+    int found = 0; //indique si des prédécesseurs ont été trouvés
+    for (int i = 0; i < graphe->nbSommets; i++) {
+        Arete* arete = graphe->sommets[i].successeurs;
+        while (arete != NULL) {
+            if (arete->cible == index) {
+                printf("\n-> %s ", graphe->sommets[i].nom);
+                found = 1;
+            }
+            arete = arete->suivant;
+        }
+    }
+    if (!found) {
+        printf("aucun");
+    }
+}
+
+//fonction pour afficher le graphe avec successeurs et prédécesseurs
+void afficherGraphe(Graphe* graphe) {
+    printf("\n=== Affichage du Graphe ===\n");
+    for (int i = 0; i < graphe->nbSommets; i++) {
+        printf("Sommet %d (%s):\n", i, graphe->sommets[i].nom);
+
+        printf("Successeurs: ");
+        afficherSuccesseurs(&graphe->sommets[i], graphe);
+        printf("\n");
+
+        printf("Predecesseurs: ");
+        afficherPredecesseurs(i, graphe);
+        printf("\n");
+    }
+}
+
+//fonction pour libérer la mémoire allouée
+void libererGraphe(Graphe* graphe) {
+    for (int i = 0; i < graphe->nbSommets; i++) {
+        Arete* arete = graphe->sommets[i].successeurs;
+        while (arete != NULL) {
+            Arete* temp = arete;
+            arete = arete->suivant;
+            free(temp);
+        }
+    }
+    free(graphe->sommets);
+    free(graphe);
+}
+
+//fonction pour afficher le menu
+void afficherMenu() {
+    printf("\n=== Menu Principal ===\n");
+    printf("1. Charger un reseau\n");
+    printf("2. Afficher le reseau\n");
+    printf("3. Quitter\n");
+    printf("Entrez votre choix : ");
+}
+
+//fonction principale
+int main() {
+    Graphe* graphe = NULL; //graphe initialement vide
+    int choix;             //choix de l'utilisateur
+    char nomFichier[50];   //nom du fichier à charger
+
+    do {
+        afficherMenu();
+
+        //validation de l'entrée utilisateur
+        if (scanf("%d", &choix) != 1) {
+            printf("Erreur : veuillez entrer un nombre entier valide.\n");
+            while (getchar() != '\n'); //nettoie le buffer en cas d'entrée invalide
+            choix = -1; //réinitialise choix pour éviter de quitter le menu
+            continue;   //recommence le menu
+        }
+
+        switch (choix) {
+            case 1: //charger un réseau
+                printf("Entrez le nom du fichier : ");
+                scanf("%s", nomFichier);
+                Graphe* nouveauGraphe = chargerGrapheDepuisFichier(nomFichier);
+                if (nouveauGraphe != NULL) {
+                    //libère l'ancien graphe s'il existe
+                    if (graphe != NULL) {
+                        libererGraphe(graphe);
+                    }
+                    graphe = nouveauGraphe; //remplace par le nouveau graphe
+                    printf("Reseau charge avec succes.\n");
+                } else {
+                    printf("Echec du chargement du reseau. Verifiez le nom du fichier.\n");
+                }
+                break;
+
+            case 2: //afficher le réseau
+                if (graphe != NULL) {
+                    afficherGraphe(graphe);
+                } else {
+                    printf("Aucun reseau n'a ete charge. Veuillez d'abord charger un reseau.\n");
+                }
+                break;
+
+            case 3: //quitter
+                printf("Au revoir !\n");
+                if (graphe != NULL) {
+                    libererGraphe(graphe); //libère la mémoire allouée pour le graphe
+                }
+                break;
+
+            default: //gestion des choix invalides
+                printf("Erreur : choix invalide. Veuillez entrer un numero entre 1 et 3.\n");
+        }
+    } while (choix != 3); //continue tant que l'utilisateur ne choisit pas de quitter
+
+    return 0;
+}
