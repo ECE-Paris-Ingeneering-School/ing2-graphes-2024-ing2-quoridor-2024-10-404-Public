@@ -1,0 +1,29 @@
+10
+Vegetaux
+Sauterelle
+Daim
+Debris_vegetaux
+Vers_de_terre
+Souris
+Pie
+Sanglier
+Aigle_royal
+Loup_gris
+17
+Vegetaux Sauterelle 0.3
+Vegetaux Souris 1
+Vegetaux Daim 1200
+Vegetaux Sanglier 1050
+Sauterelle Sanglier 5.3
+Sauterelle Pie 5.3
+Sauterelle Souris 2
+Daim Loup_gris 160
+Debris_vegetaux Vers_de_terre 0.5 
+Vers_de_terre Sanglier 1.5
+Vers_de_terre Pie 2.5
+Souris Aigle_royal 18
+Souris Loup_gris 2
+Souris Sanglier 0.5
+Souris Pie 0.5
+Pie Aigle_royal 4
+Sanglier Loup_gris 80
