@@ -1,0 +1,87 @@
+25
+Arbres
+Herbes&Buissons
+Matiere_organique_morte
+Champignons
+Colonie_de_Fourmi
+Souris
+Lezard
+Sauterelle
+Colonie_de_Termites
+Phacochere
+Antilope
+Gazelle
+Gnou
+Pangolin
+Suricate
+Zebre
+Girafe
+Elephant
+Rhinoceros
+Hyene
+Guepard
+Leopard
+Caracal
+Serval
+Lion
+60
+Arbres Girafe 11000
+Arbres Elephant 29000
+Arbres Colonie_de_Termites 1095
+Herbes&Buissons Rhinoceros 22000
+Herbes&Buissons Colonie_de_Termites 160
+Herbes&Buissons Sauterelle 1.5
+Herbes&Buissons Zebre 4300
+Herbes&Buissons Phacochere 1270
+Herbes&Buissons Colonie_de_Fourmi 18
+Herbes&Buissons Antilope 2190
+Herbes&Buissons Gazelle 910
+Herbes&Buissons Souris 2.5
+Herbes&Buissons Gnou 2000
+Matiere_organique_morte Champignons 500
+Champignons Colonie_de_Fourmi 10
+Champignons Souris 1
+Champignons Colonie_de_Termites 15
+Colonie_de_Fourmi Pangolin 70
+Colonie_de_Fourmi Lezard 1.5
+Souris Leopard 11
+Souris Guepard 11
+Lezard Serval 36
+Sauterelle Suricate 11
+Sauterelle Lezard 5.5
+Sauterelle Serval 5.5
+Colonie_de_Termites Pangolin 70
+Colonie_de_Termites Lezard 0.0005
+Colonie_de_Termites Serval 0.1
+Colonie_de_Termites Suricate 0.55
+Phacochere Leopard 270
+Phacochere Hyene 1350
+Phacochere Lion 900
+Antilope Caracal 170
+Antilope Leopard 540
+Antilope Guepard 1560
+Antilope Hyene 900
+Antilope Lion 3900
+Gazelle Caracal 128
+Gazelle Leopard 600
+Gazelle Guepard 1040
+Gazelle Hyene 840
+Gazelle Lion 1560
+Gnou Hyene 1800
+Gnou Leopard 280
+Gnou Guepard 525
+Gnou Lion 7800
+Pangolin Hyene 48
+Pangolin Leopard 48
+Pangolin Lion 40
+Suricate Caracal 14
+Suricate Hyene 6.4
+Zebre Hyene 2400
+Zebre Lion 3600
+Girafe Lion 1920
+Elephant Lion 700
+Rhinoceros Lion 100
+Hyene Lion 60 
+Guepard Lion 50 
+Leopard Lion 60
+Caracal Lion 12
