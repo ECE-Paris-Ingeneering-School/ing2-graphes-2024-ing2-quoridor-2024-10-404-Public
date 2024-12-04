@@ -1,0 +1,44 @@
+14
+debris_organiques
+bacteries
+phytoplanctons
+sardines
+moule
+huitre
+zooplanctons
+sole
+saumon
+baleine_bleue
+dorade_royale
+phoque
+requin_marteau 
+orque
+28
+debris_organiques bacteries 30
+debris_organiques sole 0.15
+debris_organiques moule 0.02
+bacteries moule 2.5
+bacteries huitre 5
+phytoplanctons sardines 9
+phytoplanctons zooplanctons 0.003
+phytoplanctons moule 3.5
+phytoplanctons huitre 7.5
+sardines saumon 22
+sardines phoque 1200
+sardines requin_marteau 1400
+moule sole 5
+moule dorade_royale 8
+huitre dorade_royale 1
+zooplanctons sardines 8
+zooplanctons baleine_bleue 1400000
+zooplanctons saumon 7
+sole phoque 3500
+saumon baleine_bleue 300
+saumon requin_marteau 800
+saumon orque 30000
+baleine_bleue orque 5000
+dorade_royale phoque 2900
+dorade_royale requin_marteau 3200
+phoque requin_marteau 400
+phoque orque 15000
+requin_marteau orque 5000
